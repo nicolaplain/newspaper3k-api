@@ -22,3 +22,9 @@ def extract():
         })
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+# 🔧 Wichtig: Flask muss auf Port 8080 hören, damit Cloud Run funktioniert
+if __name__ == "__main__":
+    import os
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host="0.0.0.0", port=port)
