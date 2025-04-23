@@ -20,3 +20,5 @@ COPY . .
 
 # 🟢 WICHTIG: Flask auf 0.0.0.0:8080 starten
 CMD ["python", "app.py"]
+
+RUN pip install lxml-html-clean
