@@ -1,21 +1,22 @@
 FROM python:3.9-slim
 
-# 🧩 Installiere Systempakete, die newspaper3k benötigt
+# Installiere Systemabhängigkeiten für newspaper3k
 RUN apt-get update && apt-get install -y \
-    libxml2-dev libxslt-dev libjpeg-dev zlib1g-dev libmagic1 \
-    python3-dev poppler-utils tesseract-ocr libtesseract-dev \
-    build-essential curl wget && \
-    apt-get clean
+    python3-dev build-essential libxml2-dev libxslt-dev \
+    libjpeg-dev zlib1g-dev libpng-dev libffi-dev \
+    libmagic1 poppler-utils tesseract-ocr libtesseract-dev curl wget \
+    && apt-get clean
 
 # Arbeitsverzeichnis setzen
 WORKDIR /app
 
-# Abhängigkeiten installieren
+# requirements.txt kopieren und Abhängigkeiten installieren
 COPY requirements.txt .
+RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Code kopieren
+# App-Code kopieren
 COPY . .
 
-# Flask starten auf Port 8080
+# 🟢 WICHTIG: Flask auf 0.0.0.0:8080 starten
 CMD ["python", "app.py"]
